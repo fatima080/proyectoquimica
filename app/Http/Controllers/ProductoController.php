@@ -144,19 +144,21 @@ class ProductoController extends Controller
         $producto->fecha_entrada = $request->input('caducidad');
         $producto->save();
 
-        // Itera sobre cada elemento en 'h_producto'
-        foreach ($request->h_producto as $h_producto) {
-            // Crea un nuevo registro en la tabla 'h_productos' para cada elemento
-            $hProducto = new HProducto;
-            $hProducto->id_producto = $producto->id_producto;
-            $hProducto->h = $h_producto;
-            $hProducto->save();
+        if ($request->h_producto) {
+            // Itera sobre cada elemento en 'h_producto'
+            foreach ($request->h_producto as $h_producto) {
+                // Crea un nuevo registro en la tabla 'h_productos' para cada elemento
+                $hProducto = new HProducto;
+                $hProducto->id_producto = $producto->id_producto;
+                $hProducto->h = $h_producto;
+                $hProducto->save();
+            }
         }
 
         $historialData = $request->only(['cantidad', 'movimiento', 'motivo']);
         $this->trackChanges($producto, $historialData);
 
-        return redirect()->route('productos.index')->with('success', 'Nuevo producto creado exitosamente!');
+        return redirect()->route('dashboard')->with('success', 'Nuevo producto creado exitosamente!');
     }
 
     /*
@@ -254,26 +256,29 @@ class ProductoController extends Controller
         $producto = Producto::find($id_producto);
         $updateData = $request->all();
 
-        // Si h_producto es un array, lo convertimos a un string para poder almacenarlo en la base de datos
-        if (is_array($updateData['h_producto'])) {
-            $updateData['h_producto'] = implode(',', $updateData['h_producto']);
-        }
-        // Elimina los valores actuales de h_producto para este producto
-        HProducto::where('id_producto', $id_producto)->delete();
+        if ($request->h_producto) {
+            // Si h_producto es un array, lo convertimos a un string para poder almacenarlo en la base de datos
+            if (is_array($updateData['h_producto'])) {
+                $updateData['h_producto'] = implode(',', $updateData['h_producto']);
+            }
 
-        // Inserta los nuevos valores de h_producto
-        foreach ($request->h_producto as $h_producto) {
-            $hProducto = new HProducto;
-            $hProducto->id_producto = $id_producto;
-            $hProducto->h = $h_producto;
-            $hProducto->save();
+            // Elimina los valores actuales de h_producto para este producto
+            HProducto::where('id_producto', $id_producto)->delete();
+
+            // Inserta los nuevos valores de h_producto
+            foreach ($request->h_producto as $h_producto) {
+                $hProducto = new HProducto;
+                $hProducto->id_producto = $id_producto;
+                $hProducto->h = $h_producto;
+                $hProducto->save();
+            }
         }
 
         $producto->update($updateData);
         $historialData = $request->only(['cantidad', 'movimiento', 'motivo']);
         $this->trackChanges($producto, $historialData);
 
-        return redirect()->route('productos.index')->with('success', 'Producto actualizado exitosamente!');
+        return redirect()->route('dashboard')->with('success', 'Producto actualizado exitosamente!');
     }
 
     /**
@@ -297,7 +302,7 @@ class ProductoController extends Controller
             }
         }
 
-        return redirect()->route('productos.index')->with('success', 'Producto eliminado exitosamente!');
+        return redirect()->route('dashboard')->with('success', 'Producto eliminado exitosamente!');
     }
 
     protected function trackChanges(Producto $producto, array $changes)

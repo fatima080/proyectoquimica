@@ -20,21 +20,23 @@
                 $groupIndex = 0;
             @endphp
 
-            @if ($role === 'Admin')
-                <a href="{{ route('productos.create') }}" class="btn btn-primary ml-2">Dar de alta un químico</a>
-                <a href="{{ route('productos.historial') }}" class="btn btn-primary ml-2">Ver historial de movimientos</a>
-            @endif
-            <form action="{{ route('productos.index') }}" method="GET" class="d-inline-flex">
-                <input type="text" name="search" class="form-control" placeholder="Buscar por nombre, CAS o tipo">
-                <button type="submit" class="btn btn-primary" style="border-top-left-radius: 0; border-bottom-left-radius: 0;">
-                    <i class="fas fa-search"></i>
-                </button>
-            </form>
+            <div class="d-flex justify-content-between">
+                <div>
+                    <a href="{{ route('productos.create') }}" class="btn btn-verde ml-2" style="{{ $role === 'Admin' ? '' : 'visibility: hidden;' }}">Dar de alta un químico</a>
+                    <a href="{{ route('productos.historial') }}" class="btn btn-verde ml-2" style="{{ $role === 'Admin' ? '' : 'visibility: hidden;' }}">Ver historial de movimientos</a>
+                </div>
+                <form action="{{ route('productos.index') }}" method="GET" class="d-inline-flex" style="margin-left: 400px;">
+                    <input type="text" name="search" class="form-control" placeholder="Buscar por nombre, CAS o tipo">
+                    <button type="submit" class="btn btn-verde" style="border-top-left-radius: 0; border-bottom-left-radius: 0;">
+                        <i class="fas fa-search"></i>
+                    </button>
+                </form>
+            </div>
         </div>
     </div>
-    @if(Session::get('success'))
-    <div class="alert alert-success mt-2">
-        <strong>{{ Session::get('success') }}</strong>
+    @if(Session::get('verde'))
+    <div class="alert alert-verde mt-2">
+        <strong>{{ Session::get('verde') }}</strong>
     </div>
     @endif
 
@@ -61,12 +63,14 @@
                     <td>{{ $firstItem->cas }}</td>
                     <td>
                         @if($firstItem->fds)
-                            <a href="{{ $firstItem->fds }}" class="badge bg-warning fs-6" target="_blank">Ver</a>
+                            <a href="{{ $firstItem->fds }}" style="color:green" target="_blank">
+                                <i class="fas fa-eye"></i>
+                            </a>
                         @endif
                     </td>
                     <td>{{ $firstItem->tipo }}</td>
                     <td>
-                        <button class="btn btn-link toggle-button" type="button" data-bs-toggle="collapse" data-bs-target="#producto{{ $groupIndex }}" aria-expanded="false" aria-controls="producto{{ $groupIndex }}">
+                        <button class="btn btn-link toggle-button" style="color:green" type="button" data-bs-toggle="collapse" data-bs-target="#producto{{ $groupIndex }}" aria-expanded="false" aria-controls="producto{{ $groupIndex }}">
                             <i class="fas fa-chevron-down"></i>
                         </button>
                     </td>
@@ -104,11 +108,15 @@
                                         <td>{{ $casProducto->desc ?? '' }}</td>
                                         <td>
                                             @if ($role === 'Admin')
-                                                <a href="{{ route('productos.edit', $casProducto->id_producto) }}" class="btn btn-primary">Editar</a>
+                                                <a href="{{ route('productos.edit', $casProducto->id_producto) }}" class="btn btn-success">
+                                                    <i class="fas fa-edit"></i>
+                                                </a>
                                                 <form action="{{ route('productos.destroy', $casProducto->id_producto) }}" method="post" class="d-inline">
                                                     @csrf
                                                     @method('DELETE')
-                                                    <button type="submit" class="btn btn-danger">Eliminar</button>
+                                                    <button type="submit" class="btn btn-danger">
+                                                        <i class="fas fa-trash"></i>
+                                                    </button>
                                                 </form>
                                             @endif
                                         </td>

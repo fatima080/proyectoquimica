@@ -7,21 +7,44 @@
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" rel="stylesheet" />
 
     <title>Productos quimicos</title>
+    <style>
+        .btn-verde {
+            background-color: #33bb33;
+            color: #000000;
+        }
+
+        .btn-verde:hover {
+            background-color: #008000;
+            color: #000000;
+        }
+        .select2-results__option--highlighted[aria-selected] {
+            background-color: #04aa04 !important;
+            color: white !important;
+        }
+        .select2-selection__choice {
+            background-color: #298129 !important;
+            color: white !important;
+        }
+    </style>
 </head>
 <body class="bg-white text-black">
     <div class="container">
         @yield('content')
     </div>
-
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script>
     <script>
     $(document).ready(function() {
         $('.toggle-button').click(function() {
             $(this).find('i').toggleClass('fa-chevron-down fa-chevron-up');
         });
+    });
+    $(document).ready(function() {
+        $('select[name="h_producto[]"]').select2();
     });
     </script>
 </body>
