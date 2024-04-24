@@ -125,32 +125,6 @@
                                         </select>
                                     </div>
                                 </div>
-                                <div class="col-xs-12 col-sm-12 col-md-12 mt-2">
-                                    <div class="form-group">
-                                        <strong>Cantidad:</strong>
-                                        <input type="text" name="cantidad" class="form-control" placeholder="Cantidad" required>
-                                    </div>
-                                </div>
-                                <div class="col-xs-12 col-sm-12 col-md-12 mt-2">
-                                    <div class="form-group">
-                                        <strong>Movimiento:</strong>
-                                        <select name="movimiento" class="form-control">
-                                            @foreach ($enumMovimiento as $value)
-                                                <option value="{{ $value }}">{{ $value }}</option>
-                                            @endforeach
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="col-xs-12 col-sm-12 col-md-12 mt-2">
-                                    <div class="form-group">
-                                        <strong>Motivo:</strong>
-                                        <select name="motivo" class="form-control">
-                                            @foreach ($enumMotivo as $value)
-                                                <option value="{{ $value }}">{{ $value }}</option>
-                                            @endforeach
-                                        </select>
-                                    </div>
-                                </div>
                                 <div class="col-xs-12 col-sm-12 col-md-12 text-center mt-2">
                                     <button type="submit" class="btn btn-verde">Crear</button>
                                 </div>

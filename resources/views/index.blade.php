@@ -101,16 +101,25 @@
                                             @endif
                                         </td>
                                         <td>{{ $casProducto->caducidad ?? '' }}</td>
-                                        <td>{{ $casProducto->capacidad ?? '0' }} {{ $casProducto->estado == 'liquido' ? 'ml' : 'gr' }}</td>
+                                        <td id="capacidad-{{ $casProducto->id_producto }}" class="capacidad">{{ $casProducto->capacidad ?? '0' }} {{ $casProducto->estado == 'liquido' ? 'ml' : 'gr' }}</td>
                                         <td>{{ $casProducto->armario ?? '' }}</td>
                                         <td>{{ $casProducto->balda ?? '' }}</td>
                                         <td>{{ $casProducto->h_producto ?? '' }}</td>
                                         <td>{{ $casProducto->desc ?? '' }}</td>
+                                        <td id="consumo-{{ $casProducto->id_producto }}" class="consumo">
+                                            <div class="form-group">
+                                                <strong>Cantidad consumida:</strong>
+                                                <input type="text" name="cantidad" class="form-control" placeholder="Cantidad" required>
+                                            </div>
+                                        </td>
                                         <td>
                                             @if ($role === 'Admin')
                                                 <a href="{{ route('productos.edit', $casProducto->id_producto) }}" class="btn btn-success">
                                                     <i class="fas fa-edit"></i>
                                                 </a>
+                                                <button id="editar-{{ $casProducto->id_producto }}" class="btn btn-primary editar-cantidad" data-id="{{ $casProducto->id_producto }}">
+                                                    Editar cantidad
+                                                </button>
                                                 <form action="{{ route('productos.destroy', $casProducto->id_producto) }}" method="post" class="d-inline">
                                                     @csrf
                                                     @method('DELETE')

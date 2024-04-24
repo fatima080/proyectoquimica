@@ -25,37 +25,6 @@ class Producto extends Model
         'fecha_entrada'
     ];
 
-    protected static function boot()
-    {
-        parent::boot();
-
-        static::created(function ($producto) {
-            // Aquí puedes insertar un nuevo registro en la tabla historial
-            // para registrar que se ha creado un nuevo producto
-            Historial::create([
-                'usuario' => auth()->id(),
-                'id_producto' => $producto->id_producto,
-                'movimiento' => 'entrada',
-                'cantidad' => $producto->capacidad, // Asumiendo que 'capacidad' es la cantidad
-                'motivo' => 'adquisicion',
-                'fecha' => now(),
-            ]);
-        });
-
-        static::updated(function ($producto) {
-            // Aquí puedes insertar un nuevo registro en la tabla historial
-            // para registrar que se ha actualizado un producto
-            Historial::create([
-                'usuario' => auth()->id(),
-                'id_producto' => $producto->id_producto,
-                'movimiento' => 'salida',
-                'cantidad' => $producto->capacidad, // Asumiendo que 'capacidad' es la cantidad
-                'motivo' => 'regularizacion',
-                'fecha' => now(),
-            ]);
-        });
-    }
-
     public function casProducto()
     {
         return $this->belongsTo(CasProducto::class, 'id_cas', 'id');

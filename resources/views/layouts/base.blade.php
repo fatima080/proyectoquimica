@@ -46,6 +46,31 @@
     $(document).ready(function() {
         $('select[name="h_producto[]"]').select2();
     });
+    $(document).ready(function() {
+        $('.editar-cantidad').on('click', function() {
+            var id = $(this).data('id');
+            var consumo = $('#consumo-' + id).find('input[name="cantidad"]').val().trim();
+            if ($(this).text() === 'Editar cantidad') {
+                $('#consumo-' + id).html('<div class="form-group"><strong>Cantidad consumida:</strong><input type="text" name="cantidad" class="form-control" value="' + consumo + '" required></div>');
+                $(this).text('Guardar cantidad');
+            } else {
+                var nuevoConsumo = $('#consumo-' + id).find('input[name="cantidad"]').val();
+                $(this).text('Editar cantidad');
+                // Aquí debes hacer una solicitud AJAX para guardar la nueva cantidad en la base de datos
+                $.ajax({
+                    url: '/productos/' + id,
+                    type: 'PUT',
+                    data: {
+                        '_token': '{{ csrf_token() }}',
+                        'cantidad': nuevoConsumo
+                    },
+                    success: function(result) {
+                        // Haz algo con el resultado
+                    }
+                });
+            }
+        });
+    });
     </script>
 </body>
 </html>

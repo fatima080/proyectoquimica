@@ -61,22 +61,6 @@
                                     </div>
                                 </div>
                                 <div class="col-xs-12 col-sm-12 col-md-12 mt-2">
-                                    <div class="form-group row">
-                                        <div class="col-md-6">
-                                            <strong>Capacidad:</strong>
-                                            <input type="text" name="capacidad" class="form-control" placeholder="Capacidad"  value="{{ $producto->capacidad }}" required>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <strong>Estado:</strong>
-                                            <select name="estado" class="form-control">
-                                                @foreach ($enumEstado as $value)
-                                                    <option value="{{ $value }}">{{ $value }}</option>
-                                                @endforeach
-                                            </select>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-xs-12 col-sm-12 col-md-12 mt-2">
                                     <div class="form-group">
                                         <strong>Armario:</strong>
                                         <input type="text" name="armario" class="form-control" placeholder="Armario"  value="{{ $producto->armario }}">
@@ -101,19 +85,25 @@
                                     </div>
                                 </div>
                                 <div class="col-xs-12 col-sm-12 col-md-12 mt-2">
-                                    <div class="form-group">
-                                        <strong>Cantidad:</strong>
-                                        <input type="text" name="cantidad" class="form-control" placeholder="Cantidad" required>
+                                    <div class="form-group row">
+                                        <div class="col-md-6">
+                                            <strong>Capacidad:</strong>
+                                            <input type="text" name="capacidad" class="form-control" placeholder="Capacidad"  value="{{ $producto->capacidad }}" readonly>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <strong>Estado:</strong>
+                                            <select name="estado" class="form-control">
+                                                @foreach ($enumEstado as $value)
+                                                    <option value="{{ $value }}">{{ $value }}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="col-xs-12 col-sm-12 col-md-12 mt-2">
                                     <div class="form-group">
-                                        <strong>Movimiento:</strong>
-                                        <select name="movimiento" class="form-control">
-                                            @foreach ($enumMovimiento as $value)
-                                                <option value="{{ $value }}">{{ $value }}</option>
-                                            @endforeach
-                                        </select>
+                                        <strong>Cantidad consumida:</strong>
+                                        <input type="text" name="cantidad" class="form-control" placeholder="Cantidad" required>
                                     </div>
                                 </div>
                                 <div class="col-xs-12 col-sm-12 col-md-12 mt-2">
@@ -121,7 +111,9 @@
                                         <strong>Motivo:</strong>
                                         <select name="motivo" class="form-control">
                                             @foreach ($enumMotivo as $value)
-                                                <option value="{{ $value }}">{{ $value }}</option>
+                                                @if ($value != 'adquisicion')
+                                                    <option value="{{ $value }}">{{ $value }}</option>
+                                                @endif
                                             @endforeach
                                         </select>
                                     </div>
