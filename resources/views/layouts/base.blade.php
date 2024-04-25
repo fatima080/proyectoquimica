@@ -49,28 +49,65 @@
     $(document).ready(function() {
         $('.editar-cantidad').on('click', function() {
             var id = $(this).data('id');
-            var consumo = $('#consumo-' + id).find('input[name="cantidad"]').val().trim();
-            if ($(this).text() === 'Editar cantidad') {
-                $('#consumo-' + id).html('<div class="form-group"><strong>Cantidad consumida:</strong><input type="text" name="cantidad" class="form-control" value="' + consumo + '" required></div>');
-                $(this).text('Guardar cantidad');
+            var consumoDiv = $('#consumo-' + id);
+            var capacidadDiv = $('#capacidad-' + id);
+            var hideableElements = $('.hideable');
+            var cantidadConsumidaHeader = $('.cantidad-consumida-header');
+            var button = $(this);
+
+            if (button.data('state') === 'edit') {
+                hideableElements.addClass('d-none');
+                cantidadConsumidaHeader.removeClass('d-none');
+                consumoDiv.find('.form-group').removeClass('d-none');
+                capacidadDiv.removeClass('d-none');
+                button.data('state', 'save');
+                button.attr('title', 'Guardar cantidad');
             } else {
-                var nuevoConsumo = $('#consumo-' + id).find('input[name="cantidad"]').val();
-                $(this).text('Editar cantidad');
-                // Aquí debes hacer una solicitud AJAX para guardar la nueva cantidad en la base de datos
-                $.ajax({
-                    url: '/productos/' + id,
-                    type: 'PUT',
-                    data: {
-                        '_token': '{{ csrf_token() }}',
-                        'cantidad': nuevoConsumo
-                    },
-                    success: function(result) {
-                        // Haz algo con el resultado
+                var cantidad = consumoDiv.find('input[name="cantidad"]').val();
+                if (cantidad !== null && cantidad !== '') {
+                    if (confirm('¿Estás seguro de que quieres guardar?')) {
+                        $.ajax({
+                            url: '/productos/' + id,
+                            type: 'POST',
+                            data: {
+                                _method: 'PUT',
+                                cantidad: cantidad,
+                                _token: $('meta[name="csrf-token"]').attr('content')
+                            },
+                            success: function(response) {
+                                hideableElements.removeClass('d-none');
+                                cantidadConsumidaHeader.addClass('d-none');
+                                consumoDiv.find('.form-group').addClass('d-none');
+                                if (response.capacidad) {
+                                    $('#capacidad-value-' + id).text(response.capacidad);
+                                }
+                                button.data('state', 'edit');
+                                button.attr('title', 'Editar capacidad actual');
+                            },
+                            error: function(jqXHR, textStatus, errorThrown) {
+                                console.log(textStatus, errorThrown);
+                            }
+                        });
+                    } else {
+                        hideableElements.removeClass('d-none');
+                        cantidadConsumidaHeader.addClass('d-none');
+                        consumoDiv.find('.form-group').addClass('d-none');
+                        capacidadDiv.addClass('d-none');
+                        button.data('state', 'edit');
+                        button.attr('title', 'Editar capacidad actual');
                     }
-                });
+                }
+                // Ocultar el tooltip, cambiar el título y mostrar el tooltip de nuevo
+                button.attr('data-original-title', button.attr('title'));
             }
+
+
         });
     });
+    // Inicializar tooltips
+    /*$(function () {
+    $('[data-bs-toggle="tooltip"]').tooltip()
+    })*/
     </script>
 </body>
 </html>

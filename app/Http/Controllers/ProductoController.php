@@ -247,8 +247,11 @@ class ProductoController extends Controller
         $updateData = $request->all();
 
         if ($request->has('cantidad')) {
-            $updateData['capacidad'] -= $request->input('cantidad');
+            $producto->capacidad -= $request->input('cantidad');
+            $producto->save();
         }
+
+        unset($updateData['capacidad']);
 
         if ($request->h_producto) {
             // Si h_producto es un array, lo convertimos a un string para poder almacenarlo en la base de datos
@@ -276,12 +279,23 @@ class ProductoController extends Controller
         $historial->fecha = now();
         $historial->cantidad = $request->input('cantidad');
         $historial->movimiento = 'salida';
-        $historial->motivo = $request->input('motivo');
+        if($request->has('motivo')){
+            $historial->motivo = $request->input('motivo');
+        } else {
+            $historial->motivo = 'consumo';
+        }
 
         $historial->save();
 
-        return redirect()->route('dashboard')->with('success', 'Producto actualizado exitosamente!');
+        if ($request->ajax()) {
+            // Si es una llamada AJAX, devuelve una respuesta JSON con la capacidad
+            return response()->json(['capacidad' => $producto->capacidad], 200);
+        } else {
+            // Si no es una llamada AJAX, redirige al usuario como antes
+            return redirect()->route('dashboard')->with('success', 'Producto actualizado exitosamente!');
+        }
     }
+
 
     /**
      * Remove the specified resource from storage.

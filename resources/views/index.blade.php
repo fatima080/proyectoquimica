@@ -81,49 +81,52 @@
                             <div class="card card-body">
                                 <table class="table">
                                     <tr>
-                                        <th>Concentración</th>
-                                        <th>Caducidad</th>
+                                        <th class="hideable">Concentración</th>
+                                        <th class="hideable">Caducidad</th>
                                         <th>Capacidad</th>
-                                        <th>Armario</th>
-                                        <th>Balda</th>
-                                        <th>Hp</th>
-                                        <th>Descripción Hp</th>
+                                        <th class="hideable d-none cantidad-consumida-header">Cantidad consumida</th>
+                                        <th class="hideable">Armario</th>
+                                        <th class="hideable">Balda</th>
+                                        <th class="hideable">Hp</th>
+                                        <th class="hideable">Descripción Hp</th>
                                         @if ($role === 'Admin')
                                             <th>Acciones</th>
                                         @endif
                                     </tr>
                                     @foreach($sortedGroup as $casProducto)
                                     <tr>
-                                        <td>
+                                        <td class="hideable">
                                             {{ $casProducto->concentracion ?? '' }}
                                             @if($casProducto->concentracion)
                                                 {{ $casProducto->tipo_concentracion ?? '' }}
                                             @endif
                                         </td>
-                                        <td>{{ $casProducto->caducidad ?? '' }}</td>
-                                        <td id="capacidad-{{ $casProducto->id_producto }}" class="capacidad">{{ $casProducto->capacidad ?? '0' }} {{ $casProducto->estado == 'liquido' ? 'ml' : 'gr' }}</td>
-                                        <td>{{ $casProducto->armario ?? '' }}</td>
-                                        <td>{{ $casProducto->balda ?? '' }}</td>
-                                        <td>{{ $casProducto->h_producto ?? '' }}</td>
-                                        <td>{{ $casProducto->desc ?? '' }}</td>
+                                        <td class="hideable">{{ $casProducto->caducidad ?? '' }}</td>
+                                        <td id="capacidad-{{ $casProducto->id_producto }}" class="capacidad">
+                                            <span id="capacidad-value-{{ $casProducto->id_producto }}">{{ $casProducto->capacidad ?? '0' }}</span>
+                                            {{ $casProducto->estado == 'liquido' ? 'ml' : 'gr' }}
+                                        </td>
+                                        <td class="hideable">{{ $casProducto->armario ?? '' }}</td>
+                                        <td class="hideable">{{ $casProducto->balda ?? '' }}</td>
+                                        <td class="hideable">{{ $casProducto->h_producto ?? '' }}</td>
+                                        <td class="hideable">{{ $casProducto->desc ?? '' }}</td>
                                         <td id="consumo-{{ $casProducto->id_producto }}" class="consumo">
-                                            <div class="form-group">
-                                                <strong>Cantidad consumida:</strong>
+                                            <div class="form-group d-none">
                                                 <input type="text" name="cantidad" class="form-control" placeholder="Cantidad" required>
                                             </div>
                                         </td>
                                         <td>
                                             @if ($role === 'Admin')
-                                                <a href="{{ route('productos.edit', $casProducto->id_producto) }}" class="btn btn-success">
+                                                <button id="editar-{{ $casProducto->id_producto }}" class="btn editar-cantidad" style="background-color: green; color:white" data-id="{{ $casProducto->id_producto }}" data-state="edit" data-bs-toggle="tooltip" title="Editar capacidad actual">
                                                     <i class="fas fa-edit"></i>
-                                                </a>
-                                                <button id="editar-{{ $casProducto->id_producto }}" class="btn btn-primary editar-cantidad" data-id="{{ $casProducto->id_producto }}">
-                                                    Editar cantidad
                                                 </button>
+                                                <a href="{{ route('productos.edit', $casProducto->id_producto) }}" class="btn btn-success" data-bs-toggle="tooltip" title="Editar producto">
+                                                    <i class="fas fa-pencil-alt"></i>
+                                                </a>
                                                 <form action="{{ route('productos.destroy', $casProducto->id_producto) }}" method="post" class="d-inline">
                                                     @csrf
                                                     @method('DELETE')
-                                                    <button type="submit" class="btn btn-danger">
+                                                    <button type="submit" class="btn btn-danger" data-bs-toggle="tooltip" title="Eliminar producto">
                                                         <i class="fas fa-trash"></i>
                                                     </button>
                                                 </form>
