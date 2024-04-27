@@ -106,7 +106,7 @@ return new class extends Migration
             ['h' => 'EUH 207', 'desc' => 'Atención! Contiene azida de plomo.'],
             ['h' => 'EUH 208', 'desc' => 'Contiene sensibilizadores. Puede provocar una reacción alérgica.'],
             ['h' => 'EUH 209', 'desc' => 'Contiene bencisotiazolinona. Puede provocar una reacción alérgica.'],
-            ['h' => 'EUH 209', 'desc' => 'Contiene mezcla de: 5-cloro-2-metil-2H-isotiazol-3-ona [EC no. 247-500-7] y 2-metil-2H-isotiazol-3-ona [EC no. 220-239-6] (3:1). Puede provocar una reacción alérgica.'],
+            ['h' => 'EUH 210', 'desc' => 'Contiene mezcla de: 5-cloro-2-metil-2H-isotiazol-3-ona [EC no. 247-500-7] y 2-metil-2H-isotiazol-3-ona [EC no. 220-239-6] (3:1). Puede provocar una reacción alérgica.'],
         ]);
 
     }
