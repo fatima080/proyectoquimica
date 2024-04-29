@@ -37,6 +37,7 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script>
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
     $(document).ready(function() {
         $('.toggle-button').click(function() {
@@ -104,10 +105,23 @@
 
         });
     });
-    // Inicializar tooltips
-    /*$(function () {
-    $('[data-bs-toggle="tooltip"]').tooltip()
-    })*/
+    $(document).ready(function() {
+        $('.btn-danger').on('click', function(e) {
+            e.preventDefault();
+            var form = this.parentElement;
+
+            Swal.fire({
+                title: '¿Estás seguro de eliminar este producto?',
+                showDenyButton: true,
+                confirmButtonText: `Sí`,
+                denyButtonText: `No`,
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    form.submit();
+                }
+            });
+        });
+    });
     </script>
 </body>
 </html>

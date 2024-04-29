@@ -42,6 +42,18 @@
         </style>
     </head>
     <body class="antialiased">
+        @php
+            $user = Auth::user();
+            $role = 'Guest';
+
+            if ($user) {
+                $firstRole = $user->roles->first();
+                if ($firstRole) {
+                    $role = $firstRole->name;
+                }
+            }
+            $groupIndex = 0;
+        @endphp
         <div class="relative sm:flex sm:justify-center sm:items-center min-h-screen bg-dots-darker bg-center bg-gray-100 dark:bg-dots-lighter dark:bg-gray-900 selection:bg-red-500 selection:text-white">
             @if (Route::has('login'))
                 <div class="sm:fixed sm:top-0 sm:right-0 p-6 text-right z-10">
@@ -49,9 +61,10 @@
                         <a href="{{ url('/dashboard') }}" class="font-semibold green-link focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500">Dashboard</a>
                     @else
                         <a href="{{ route('login') }}" class="font-semibold green-link focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500">Log in</a>
-
-                        @if (Route::has('register'))
-                            <a href="{{ route('register') }}" class="ml-4 font-semibold green-link focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500">Register</a>
+                        @if ($role === 'Admin')
+                            @if (Route::has('register'))
+                                <a href="{{ route('register') }}" class="ml-4 font-semibold green-link focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500">Register</a>
+                            @endif
                         @endif
                     @endauth
                 </div>

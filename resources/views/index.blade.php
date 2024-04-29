@@ -123,10 +123,10 @@
                                                 <a href="{{ route('productos.edit', $casProducto->id_producto) }}" class="btn btn-success" data-bs-toggle="tooltip" title="Editar producto">
                                                     <i class="fas fa-pencil-alt"></i>
                                                 </a>
-                                                <form action="{{ route('productos.destroy', $casProducto->id_producto) }}" method="post" class="d-inline">
+                                                <form action="{{ route('productos.destroy', $casProducto->id_producto) }}" method="post" class="d-inline delete-form">
                                                     @csrf
                                                     @method('DELETE')
-                                                    <button type="submit" class="btn btn-danger" data-bs-toggle="tooltip" title="Eliminar producto">
+                                                    <button type="button" class="btn btn-danger delete-btn" data-bs-toggle="tooltip" title="Eliminar producto">
                                                         <i class="fas fa-trash"></i>
                                                     </button>
                                                 </form>

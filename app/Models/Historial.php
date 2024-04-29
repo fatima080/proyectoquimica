@@ -19,6 +19,6 @@ class Historial extends Model
 
     public function producto()
     {
-        return $this->belongsTo(Producto::class, 'id_producto', 'id_producto');
+        return $this->belongsTo(VistaCasProducto::class, 'id_producto', 'id_producto');
     }
 }
